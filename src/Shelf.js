@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import ListBooks from './ListBooks'
 import * as BooksAPI from './BooksAPI';
 
@@ -22,15 +22,15 @@ class Shelf extends React.Component {
      })
    }
   
-  currentlyReading =  () => {
+  bookShelf =  () => {
     this.state.books.map( (book) => {
       if (book.shelf === "currentlyReading"){
-         this.state.currentlyReading.push(book)
+        return this.state.currentlyReading.push(book)
       }
     else if( book.shelf === "wantToRead"){
-         this.state.wantToRead.push(book)
+       return  this.state.wantToRead.push(book)
   }else{
-         this.state.read.push(book)
+        return this.state.read.push(book)
       }
    })
  }

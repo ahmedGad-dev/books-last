@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState} from 'react'
 import './App.css'
 import {Route, Switch} from 'react-router-dom';
 import * as BooksAPI from './BooksAPI'
@@ -7,6 +7,9 @@ import { Link } from 'react-router-dom';
 import ListBooks from './ListBooks'
 import Shelf from './Shelf'
 import BookDetails from './BookDetails'
+
+export const Shelfs = React.createContext()
+
 
 class BooksApp extends React.Component {
   
@@ -28,18 +31,20 @@ class BooksApp extends React.Component {
       <Switch>
         <Route exact path={'/'} render={() => (
           <div className="list-books">
-               <h1 className="list-books-title">MyReads</h1>
+             <h1 className="list-books-title">MyReads</h1>
              <div className="list-books-content">
                <ListBooks books={this.state.books}/>
-			   <Shelf title='Currently Reading'/>
-			   <Shelf title='Want To Read'/>
+			         <Shelf title='Currently Reading'/>
+			         <Shelf title='Want To Read'/>
                <Shelf title='Read'/>
              </div>        
              <Link className="open-search" to='/search' title='Add a book'></Link>
           </div>
         )}/>         
           <Route exact path= "/search" component={AddBook} /> 
-          <Route exact path= "/search/:id" component={BookDetails}/> 
+          <Route exact path= "/search/:id" render = { () => (
+            <BookDetails books={this.state.books}/>
+            )}/> 
        </Switch>
       </div>
     )

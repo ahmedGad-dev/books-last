@@ -1,14 +1,21 @@
-import React from 'react';
+import React,{useState} from 'react';
+
 
 const Book = (props) => {
+
+  const [state, setState] = useState('lo')
   const {book} = props
+  const handleChanges=(e)=>{
+    setState(e.target.value)
+  }
    return(
+     <div>
         <li key={book.id}>
             <div className="book">
                 <div className="book-top">
                      <div className="book-cover" style={{backgroundImage: `url(${book.imageLinks.thumbnail})`}}></div>
                        <div className="book-shelf-changer">
-                            <select key={book.shelf}>
+                            <select key={book.shelf} value={setState} onChange={(e)=>handleChanges(e)}>
                               <option value="move" disabled>Move to...</option>
                               <option value="currentlyReading">Currently Reading</option>
                               <option value="wantToRead">Want to Read</option>
@@ -21,6 +28,8 @@ const Book = (props) => {
                   <div className="book-authors">{book.authors}</div>
              </div>
          </li>
+         {book.shelf}
+     </div>
     )
   }
 
