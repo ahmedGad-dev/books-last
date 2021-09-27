@@ -3,11 +3,13 @@ import React,{useState} from 'react';
 
 const Book = (props) => {
 
-  const [state, setState] = useState('lo')
+  const [state, setState] = useState('')
   const {book} = props
   const handleChanges=(e)=>{
     setState(e.target.value)
   }
+
+  
    return(
      <div>
         <li key={book.id}>
@@ -15,7 +17,7 @@ const Book = (props) => {
                 <div className="book-top">
                      <div className="book-cover" style={{backgroundImage: `url(${book.imageLinks.thumbnail})`}}></div>
                        <div className="book-shelf-changer">
-                            <select key={book.shelf} value={setState} onChange={(e)=>handleChanges(e)}>
+                            <select key={book.shelf} value={state} onChange={(e)=>handleChanges(e)}>
                               <option value="move" disabled>Move to...</option>
                               <option value="currentlyReading">Currently Reading</option>
                               <option value="wantToRead">Want to Read</option>

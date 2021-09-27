@@ -1,55 +1,63 @@
-import React,{useEffect,useState} from 'react';
+import React from 'react';
 import * as BooksAPI from './BooksAPI'
 import { Link } from 'react-router-dom'
-import Book from './Book'
-//import serialize from 'form-serialize';
-const AddBook = (props) =>{
+import ListBooks from './ListBooks';
 
+
+
+class AddBook extends React.Component { 
+
+    constructor(props) {
+      super(props);
+      this.state = { 
+        query: '',
+        books: [],
+      }
+    }
  
-    const [state, setState] = useState([])
-    const [query, setQuery] = useState('')
-    const [output, setoutput] = useState('')
-           
-  
-
-    useEffect(()=>{
-      loadData()
-      },[])
-
-    const loadData = async()=>{
-       const response = await fetch(BooksAPI.search(state))
-       const data = await response.json()
-       setState(data.title)
+     queryHandler = (event) => {
+       this.setState({
+        query : event.target.value
+       })
     }
 
+     componentWillUpdate(){  
+       if(this.state.query !== '') {
+          BooksAPI.search(this.state.query).then((books) =>{
+            this.setState({
+                books
+              })
+          })     
+        }     
+      }
 
-        return(
-            <div className="search-books">
-                <div className="search-books-bar">
-                   <Link to={'/'} className="close-search"> Close</Link>
-                     <form className="search-books-input-wrapper">                      
-                        <input type="text"
-                               placeholder="Search by title or author" 
-   							   onChange= {(e) => setState(e.target.value)}
-                            />                      
-                    </form>
-               </div>
+    
+  render(){
+    const {query, books} = this.state
+    return(    
+      <div className="search-books">
+          <div className="search-books-bar">
+            <Link to={'/'} className="close-search"> Close</Link>
+            <form className="search-books-input-wrapper">                      
+              <input
+               type="text"
+               placeholder="Search by title or author"
+               value= {query}
+               onChange= {this.queryHandler}                         
+              />                      
+            </form>
+          </div>
                 
-                <div className="search-books-results">               
-                  <ol className="books-grid">
-                    {output.length !== 0? output.map((e)=>(  
-                             <li> 
-                               <Book Book={state}/>
-                             </li>
-                        )):''} 
-                  </ol>                                             				 						
-                </div>					
-                {state}                       				      
-           </div>      
-                
-           )
+          <div className="search-books-results"> 
+              <ol className="books-grid">
+               { books && <ListBooks books={books} /> }
+              </ol>                                                                                                                       				 						
+          </div>					
+           {query}                                				      
+      </div>                    
+          )
        }
-   
+    }
 
 
 export default AddBook

@@ -131,8 +131,8 @@ body, .app {
 .books-grid{
   display: flex;
   flex-direction: row;
-  align-items: start;
-  justify-content: start;
+  align-items: flex-start;
+  justify-content: flex-start;
 }
 
 
@@ -208,5 +208,8 @@ body, .app {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  flex-wrap: wrap;
 }
+
+
 
